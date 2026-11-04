@@ -1,0 +1,90 @@
+{
+  "pipeline": "rules+retrieval",
+  "raw_events": 52,
+  "ui_actions": 8,
+  "steps": [
+    {
+      "text": "I create the project \"soc_d\" with a Mesh topology at 1000 MHz",
+      "id": "create_project",
+      "source": "rule",
+      "confidence": 1.0,
+      "covers": [
+        "set projectName = 'soc_d'"
+      ],
+      "note": ""
+    },
+    {
+      "text": "I add the initiator \"cpu0\" using AXI",
+      "id": "add_initiator",
+      "source": "retrieval",
+      "confidence": 0.85,
+      "covers": [
+        "set initiatorName = 'cpu0'",
+        "click addInitiator"
+      ],
+      "note": "tolerant match: order and noise"
+    },
+    {
+      "text": "I add the target \"ddr0\" using AXI",
+      "id": "add_target",
+      "source": "rule",
+      "confidence": 1.0,
+      "covers": [
+        "set targetName = 'ddr0'",
+        "click addTarget"
+      ],
+      "note": ""
+    },
+    {
+      "text": "I validate the design",
+      "id": "validate_design",
+      "source": "rule",
+      "confidence": 1.0,
+      "covers": [
+        "click validateBtn"
+      ],
+      "note": ""
+    }
+  ],
+  "steps_by_source": {
+    "rule": 3,
+    "retrieval": 1
+  },
+  "ignored_actions": [
+    "inspect initiatorList",
+    "inspect statusLabel"
+  ],
+  "assertions": [
+    {
+      "step_id": "list_contains",
+      "params": {
+        "list": "Initiators",
+        "item": "cpu0 (AXI)"
+      },
+      "after_call": 1,
+      "origin": "suggested",
+      "observed_delay_ms": null
+    },
+    {
+      "step_id": "list_contains",
+      "params": {
+        "list": "Targets",
+        "item": "ddr0 (AXI)"
+      },
+      "after_call": 2,
+      "origin": "suggested",
+      "observed_delay_ms": null
+    },
+    {
+      "step_id": "status_is",
+      "params": {
+        "text": "Valid: 1 initiators, 1 targets"
+      },
+      "after_call": 3,
+      "origin": "suggested",
+      "observed_delay_ms": null
+    }
+  ],
+  "llm_calls": 0,
+  "llm_rejections": []
+}

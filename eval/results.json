@@ -1,0 +1,741 @@
+[
+ {
+  "strategy": "generic",
+  "precision": 0.022988505747126436,
+  "recall": 0.038461538461538464,
+  "f1": 0.02877697841726619,
+  "exact": 0.0,
+  "business": 0.0,
+  "compression": 8.298850574712644,
+  "executes": 1.0,
+  "llm_calls": 0,
+  "llm_rejections": 0,
+  "gen_seconds": 0.02,
+  "rows": [
+   {
+    "tp": 0,
+    "n_exp": 5,
+    "n_got": 8,
+    "exact": false,
+    "business_exp": 5,
+    "business_hit": 0,
+    "name": "s01_happy_path",
+    "difficulty": "nominal, asynchronous generation",
+    "raw": 65,
+    "steps": 8,
+    "checks": 0,
+    "llm_calls": 0,
+    "llm_rejections": 0,
+    "sources": {
+     "generic": 8
+    },
+    "executes": true
+   },
+   {
+    "tp": 0,
+    "n_exp": 4,
+    "n_got": 9,
+    "exact": false,
+    "business_exp": 4,
+    "business_hit": 0,
+    "name": "s02_protocol_first",
+    "difficulty": "protocol chosen before the name",
+    "raw": 65,
+    "steps": 9,
+    "checks": 0,
+    "llm_calls": 0,
+    "llm_rejections": 0,
+    "sources": {
+     "generic": 9
+    },
+    "executes": true
+   },
+   {
+    "tp": 0,
+    "n_exp": 4,
+    "n_got": 6,
+    "exact": false,
+    "business_exp": 4,
+    "business_hit": 0,
+    "name": "s03_typo",
+    "difficulty": "typing mistake corrected",
+    "raw": 65,
+    "steps": 6,
+    "checks": 0,
+    "llm_calls": 0,
+    "llm_rejections": 0,
+    "sources": {
+     "generic": 6
+    },
+    "executes": true
+   },
+   {
+    "tp": 0,
+    "n_exp": 4,
+    "n_got": 6,
+    "exact": false,
+    "business_exp": 4,
+    "business_hit": 0,
+    "name": "s04_noise_clicks",
+    "difficulty": "useless clicks in the middle of a form",
+    "raw": 52,
+    "steps": 6,
+    "checks": 0,
+    "llm_calls": 0,
+    "llm_rejections": 0,
+    "sources": {
+     "generic": 6
+    },
+    "executes": true
+   },
+   {
+    "tp": 0,
+    "n_exp": 4,
+    "n_got": 6,
+    "exact": false,
+    "business_exp": 4,
+    "business_hit": 0,
+    "name": "s05_enter_key",
+    "difficulty": "form submitted with Enter instead of the button",
+    "raw": 50,
+    "steps": 6,
+    "checks": 0,
+    "llm_calls": 0,
+    "llm_rejections": 0,
+    "sources": {
+     "generic": 6
+    },
+    "executes": true
+   },
+   {
+    "tp": 0,
+    "n_exp": 4,
+    "n_got": 7,
+    "exact": false,
+    "business_exp": 4,
+    "business_hit": 0,
+    "name": "s06_ring_error",
+    "difficulty": "design rule error + checkpoint",
+    "raw": 53,
+    "steps": 7,
+    "checks": 3,
+    "llm_calls": 0,
+    "llm_rejections": 0,
+    "sources": {
+     "generic": 7
+    },
+    "executes": true
+   },
+   {
+    "tp": 0,
+    "n_exp": 3,
+    "n_got": 5,
+    "exact": false,
+    "business_exp": 3,
+    "business_hit": 0,
+    "name": "s07_duplicate",
+    "difficulty": "rejected duplicate name + checkpoint",
+    "raw": 46,
+    "steps": 5,
+    "checks": 2,
+    "llm_calls": 0,
+    "llm_rejections": 0,
+    "sources": {
+     "generic": 5
+    },
+    "executes": true
+   },
+   {
+    "tp": 1,
+    "n_exp": 5,
+    "n_got": 9,
+    "exact": false,
+    "business_exp": 4,
+    "business_hit": 0,
+    "name": "s08_qos",
+    "difficulty": "check box with no business step",
+    "raw": 63,
+    "steps": 9,
+    "checks": 0,
+    "llm_calls": 0,
+    "llm_rejections": 0,
+    "sources": {
+     "generic": 9
+    },
+    "executes": true
+   },
+   {
+    "tp": 0,
+    "n_exp": 6,
+    "n_got": 11,
+    "exact": false,
+    "business_exp": 6,
+    "business_hit": 0,
+    "name": "s09_two_initiators",
+    "difficulty": "repeated step + async + checkpoint",
+    "raw": 88,
+    "steps": 11,
+    "checks": 4,
+    "llm_calls": 0,
+    "llm_rejections": 0,
+    "sources": {
+     "generic": 11
+    },
+    "executes": true
+   },
+   {
+    "tp": 1,
+    "n_exp": 5,
+    "n_got": 7,
+    "exact": false,
+    "business_exp": 4,
+    "business_hit": 0,
+    "name": "s10_late_edit",
+    "difficulty": "isolated edit after the project setup",
+    "raw": 60,
+    "steps": 7,
+    "checks": 0,
+    "llm_calls": 0,
+    "llm_rejections": 0,
+    "sources": {
+     "generic": 7
+    },
+    "executes": true
+   },
+   {
+    "tp": 0,
+    "n_exp": 4,
+    "n_got": 7,
+    "exact": false,
+    "business_exp": 4,
+    "business_hit": 0,
+    "name": "s11_enter_permuted",
+    "difficulty": "Enter key + protocol after the name",
+    "raw": 57,
+    "steps": 7,
+    "checks": 0,
+    "llm_calls": 0,
+    "llm_rejections": 0,
+    "sources": {
+     "generic": 7
+    },
+    "executes": true
+   },
+   {
+    "tp": 0,
+    "n_exp": 4,
+    "n_got": 6,
+    "exact": false,
+    "business_exp": 4,
+    "business_hit": 0,
+    "name": "s12_hesitation",
+    "difficulty": "abandoned fields and reverted choice",
+    "raw": 58,
+    "steps": 6,
+    "checks": 0,
+    "llm_calls": 0,
+    "llm_rejections": 0,
+    "sources": {
+     "generic": 6
+    },
+    "executes": true
+   }
+  ]
+ },
+ {
+  "strategy": "rules",
+  "precision": 0.875,
+  "recall": 0.9423076923076923,
+  "f1": 0.9074074074074073,
+  "exact": 0.75,
+  "business": 0.94,
+  "compression": 12.892857142857142,
+  "executes": 1.0,
+  "llm_calls": 0,
+  "llm_rejections": 0,
+  "gen_seconds": 0.02,
+  "rows": [
+   {
+    "tp": 5,
+    "n_exp": 5,
+    "n_got": 5,
+    "exact": true,
+    "business_exp": 5,
+    "business_hit": 5,
+    "name": "s01_happy_path",
+    "difficulty": "nominal, asynchronous generation",
+    "raw": 65,
+    "steps": 5,
+    "checks": 4,
+    "llm_calls": 0,
+    "llm_rejections": 0,
+    "sources": {
+     "rule": 5
+    },
+    "executes": true
+   },
+   {
+    "tp": 4,
+    "n_exp": 4,
+    "n_got": 4,
+    "exact": true,
+    "business_exp": 4,
+    "business_hit": 4,
+    "name": "s02_protocol_first",
+    "difficulty": "protocol chosen before the name",
+    "raw": 65,
+    "steps": 4,
+    "checks": 3,
+    "llm_calls": 0,
+    "llm_rejections": 0,
+    "sources": {
+     "rule": 4
+    },
+    "executes": true
+   },
+   {
+    "tp": 4,
+    "n_exp": 4,
+    "n_got": 4,
+    "exact": true,
+    "business_exp": 4,
+    "business_hit": 4,
+    "name": "s03_typo",
+    "difficulty": "typing mistake corrected",
+    "raw": 65,
+    "steps": 4,
+    "checks": 3,
+    "llm_calls": 0,
+    "llm_rejections": 0,
+    "sources": {
+     "rule": 4
+    },
+    "executes": true
+   },
+   {
+    "tp": 3,
+    "n_exp": 4,
+    "n_got": 5,
+    "exact": false,
+    "business_exp": 4,
+    "business_hit": 3,
+    "name": "s04_noise_clicks",
+    "difficulty": "useless clicks in the middle of a form",
+    "raw": 52,
+    "steps": 5,
+    "checks": 2,
+    "llm_calls": 0,
+    "llm_rejections": 0,
+    "sources": {
+     "rule": 3,
+     "generic": 2
+    },
+    "executes": true
+   },
+   {
+    "tp": 3,
+    "n_exp": 4,
+    "n_got": 5,
+    "exact": false,
+    "business_exp": 4,
+    "business_hit": 3,
+    "name": "s05_enter_key",
+    "difficulty": "form submitted with Enter instead of the button",
+    "raw": 50,
+    "steps": 5,
+    "checks": 2,
+    "llm_calls": 0,
+    "llm_rejections": 0,
+    "sources": {
+     "rule": 3,
+     "generic": 2
+    },
+    "executes": true
+   },
+   {
+    "tp": 4,
+    "n_exp": 4,
+    "n_got": 4,
+    "exact": true,
+    "business_exp": 4,
+    "business_hit": 4,
+    "name": "s06_ring_error",
+    "difficulty": "design rule error + checkpoint",
+    "raw": 53,
+    "steps": 4,
+    "checks": 5,
+    "llm_calls": 0,
+    "llm_rejections": 0,
+    "sources": {
+     "rule": 4
+    },
+    "executes": true
+   },
+   {
+    "tp": 3,
+    "n_exp": 3,
+    "n_got": 3,
+    "exact": true,
+    "business_exp": 3,
+    "business_hit": 3,
+    "name": "s07_duplicate",
+    "difficulty": "rejected duplicate name + checkpoint",
+    "raw": 46,
+    "steps": 3,
+    "checks": 3,
+    "llm_calls": 0,
+    "llm_rejections": 0,
+    "sources": {
+     "rule": 3
+    },
+    "executes": true
+   },
+   {
+    "tp": 5,
+    "n_exp": 5,
+    "n_got": 5,
+    "exact": true,
+    "business_exp": 4,
+    "business_hit": 4,
+    "name": "s08_qos",
+    "difficulty": "check box with no business step",
+    "raw": 63,
+    "steps": 5,
+    "checks": 3,
+    "llm_calls": 0,
+    "llm_rejections": 0,
+    "sources": {
+     "rule": 4,
+     "generic": 1
+    },
+    "executes": true
+   },
+   {
+    "tp": 6,
+    "n_exp": 6,
+    "n_got": 6,
+    "exact": true,
+    "business_exp": 6,
+    "business_hit": 6,
+    "name": "s09_two_initiators",
+    "difficulty": "repeated step + async + checkpoint",
+    "raw": 88,
+    "steps": 6,
+    "checks": 8,
+    "llm_calls": 0,
+    "llm_rejections": 0,
+    "sources": {
+     "rule": 6
+    },
+    "executes": true
+   },
+   {
+    "tp": 5,
+    "n_exp": 5,
+    "n_got": 5,
+    "exact": true,
+    "business_exp": 4,
+    "business_hit": 4,
+    "name": "s10_late_edit",
+    "difficulty": "isolated edit after the project setup",
+    "raw": 60,
+    "steps": 5,
+    "checks": 3,
+    "llm_calls": 0,
+    "llm_rejections": 0,
+    "sources": {
+     "rule": 4,
+     "generic": 1
+    },
+    "executes": true
+   },
+   {
+    "tp": 3,
+    "n_exp": 4,
+    "n_got": 6,
+    "exact": false,
+    "business_exp": 4,
+    "business_hit": 3,
+    "name": "s11_enter_permuted",
+    "difficulty": "Enter key + protocol after the name",
+    "raw": 57,
+    "steps": 6,
+    "checks": 2,
+    "llm_calls": 0,
+    "llm_rejections": 0,
+    "sources": {
+     "rule": 3,
+     "generic": 3
+    },
+    "executes": true
+   },
+   {
+    "tp": 4,
+    "n_exp": 4,
+    "n_got": 4,
+    "exact": true,
+    "business_exp": 4,
+    "business_hit": 4,
+    "name": "s12_hesitation",
+    "difficulty": "abandoned fields and reverted choice",
+    "raw": 58,
+    "steps": 4,
+    "checks": 3,
+    "llm_calls": 0,
+    "llm_rejections": 0,
+    "sources": {
+     "rule": 4
+    },
+    "executes": true
+   }
+  ]
+ },
+ {
+  "strategy": "rules+retrieval",
+  "precision": 0.9090909090909091,
+  "recall": 0.9615384615384616,
+  "f1": 0.9345794392523366,
+  "exact": 0.8333333333333334,
+  "business": 0.96,
+  "compression": 13.127272727272727,
+  "executes": 1.0,
+  "llm_calls": 0,
+  "llm_rejections": 0,
+  "gen_seconds": 0.02,
+  "rows": [
+   {
+    "tp": 5,
+    "n_exp": 5,
+    "n_got": 5,
+    "exact": true,
+    "business_exp": 5,
+    "business_hit": 5,
+    "name": "s01_happy_path",
+    "difficulty": "nominal, asynchronous generation",
+    "raw": 65,
+    "steps": 5,
+    "checks": 4,
+    "llm_calls": 0,
+    "llm_rejections": 0,
+    "sources": {
+     "rule": 5
+    },
+    "executes": true
+   },
+   {
+    "tp": 4,
+    "n_exp": 4,
+    "n_got": 4,
+    "exact": true,
+    "business_exp": 4,
+    "business_hit": 4,
+    "name": "s02_protocol_first",
+    "difficulty": "protocol chosen before the name",
+    "raw": 65,
+    "steps": 4,
+    "checks": 3,
+    "llm_calls": 0,
+    "llm_rejections": 0,
+    "sources": {
+     "rule": 4
+    },
+    "executes": true
+   },
+   {
+    "tp": 4,
+    "n_exp": 4,
+    "n_got": 4,
+    "exact": true,
+    "business_exp": 4,
+    "business_hit": 4,
+    "name": "s03_typo",
+    "difficulty": "typing mistake corrected",
+    "raw": 65,
+    "steps": 4,
+    "checks": 3,
+    "llm_calls": 0,
+    "llm_rejections": 0,
+    "sources": {
+     "rule": 4
+    },
+    "executes": true
+   },
+   {
+    "tp": 4,
+    "n_exp": 4,
+    "n_got": 4,
+    "exact": true,
+    "business_exp": 4,
+    "business_hit": 4,
+    "name": "s04_noise_clicks",
+    "difficulty": "useless clicks in the middle of a form",
+    "raw": 52,
+    "steps": 4,
+    "checks": 3,
+    "llm_calls": 0,
+    "llm_rejections": 0,
+    "sources": {
+     "rule": 3,
+     "retrieval": 1
+    },
+    "executes": true
+   },
+   {
+    "tp": 3,
+    "n_exp": 4,
+    "n_got": 5,
+    "exact": false,
+    "business_exp": 4,
+    "business_hit": 3,
+    "name": "s05_enter_key",
+    "difficulty": "form submitted with Enter instead of the button",
+    "raw": 50,
+    "steps": 5,
+    "checks": 2,
+    "llm_calls": 0,
+    "llm_rejections": 0,
+    "sources": {
+     "rule": 3,
+     "generic": 2
+    },
+    "executes": true
+   },
+   {
+    "tp": 4,
+    "n_exp": 4,
+    "n_got": 4,
+    "exact": true,
+    "business_exp": 4,
+    "business_hit": 4,
+    "name": "s06_ring_error",
+    "difficulty": "design rule error + checkpoint",
+    "raw": 53,
+    "steps": 4,
+    "checks": 5,
+    "llm_calls": 0,
+    "llm_rejections": 0,
+    "sources": {
+     "rule": 4
+    },
+    "executes": true
+   },
+   {
+    "tp": 3,
+    "n_exp": 3,
+    "n_got": 3,
+    "exact": true,
+    "business_exp": 3,
+    "business_hit": 3,
+    "name": "s07_duplicate",
+    "difficulty": "rejected duplicate name + checkpoint",
+    "raw": 46,
+    "steps": 3,
+    "checks": 3,
+    "llm_calls": 0,
+    "llm_rejections": 0,
+    "sources": {
+     "rule": 3
+    },
+    "executes": true
+   },
+   {
+    "tp": 5,
+    "n_exp": 5,
+    "n_got": 5,
+    "exact": true,
+    "business_exp": 4,
+    "business_hit": 4,
+    "name": "s08_qos",
+    "difficulty": "check box with no business step",
+    "raw": 63,
+    "steps": 5,
+    "checks": 3,
+    "llm_calls": 0,
+    "llm_rejections": 0,
+    "sources": {
+     "rule": 4,
+     "generic": 1
+    },
+    "executes": true
+   },
+   {
+    "tp": 6,
+    "n_exp": 6,
+    "n_got": 6,
+    "exact": true,
+    "business_exp": 6,
+    "business_hit": 6,
+    "name": "s09_two_initiators",
+    "difficulty": "repeated step + async + checkpoint",
+    "raw": 88,
+    "steps": 6,
+    "checks": 8,
+    "llm_calls": 0,
+    "llm_rejections": 0,
+    "sources": {
+     "rule": 6
+    },
+    "executes": true
+   },
+   {
+    "tp": 5,
+    "n_exp": 5,
+    "n_got": 5,
+    "exact": true,
+    "business_exp": 4,
+    "business_hit": 4,
+    "name": "s10_late_edit",
+    "difficulty": "isolated edit after the project setup",
+    "raw": 60,
+    "steps": 5,
+    "checks": 3,
+    "llm_calls": 0,
+    "llm_rejections": 0,
+    "sources": {
+     "rule": 4,
+     "generic": 1
+    },
+    "executes": true
+   },
+   {
+    "tp": 3,
+    "n_exp": 4,
+    "n_got": 6,
+    "exact": false,
+    "business_exp": 4,
+    "business_hit": 3,
+    "name": "s11_enter_permuted",
+    "difficulty": "Enter key + protocol after the name",
+    "raw": 57,
+    "steps": 6,
+    "checks": 2,
+    "llm_calls": 0,
+    "llm_rejections": 0,
+    "sources": {
+     "rule": 3,
+     "generic": 3
+    },
+    "executes": true
+   },
+   {
+    "tp": 4,
+    "n_exp": 4,
+    "n_got": 4,
+    "exact": true,
+    "business_exp": 4,
+    "business_hit": 4,
+    "name": "s12_hesitation",
+    "difficulty": "abandoned fields and reverted choice",
+    "raw": 58,
+    "steps": 4,
+    "checks": 3,
+    "llm_calls": 0,
+    "llm_rejections": 0,
+    "sources": {
+     "rule": 4
+    },
+    "executes": true
+   }
+  ]
+ }
+]

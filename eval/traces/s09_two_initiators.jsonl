@@ -1,0 +1,88 @@
+{"seq": 1, "t_ms": 0, "type": "session.start", "value": {"projectName": "", "topology": "Mesh", "clockMhz": 1000, "enableQos": false, "initiatorName": "", "initiatorProtocol": "AXI", "addInitiator": true, "initiatorList": [], "targetName": "", "targetProtocol": "AXI", "addTarget": true, "targetList": [], "validateBtn": true, "generateBtn": false, "statusLabel": "Ready"}}
+{"seq": 2, "t_ms": 0, "type": "input.click", "widget": "projectName", "cls": "QLineEdit", "label": "Project name"}
+{"seq": 3, "t_ms": 32, "type": "input.key", "widget": "projectName", "cls": "QLineEdit", "label": "Project name"}
+{"seq": 4, "t_ms": 33, "type": "input.key", "widget": "projectName", "cls": "QLineEdit", "label": "Project name", "key": "a", "text": "a"}
+{"seq": 5, "t_ms": 33, "type": "input.key", "widget": "projectName", "cls": "QLineEdit", "label": "Project name", "key": "Backspace", "text": "\b"}
+{"seq": 6, "t_ms": 33, "type": "input.key", "widget": "projectName", "cls": "QLineEdit", "label": "Project name", "key": "s", "text": "s"}
+{"seq": 7, "t_ms": 33, "type": "state.input", "widget": "projectName", "cls": "QLineEdit", "label": "Project name", "value": "s"}
+{"seq": 8, "t_ms": 34, "type": "input.key", "widget": "projectName", "cls": "QLineEdit", "label": "Project name", "key": "o", "text": "o"}
+{"seq": 9, "t_ms": 34, "type": "state.input", "widget": "projectName", "cls": "QLineEdit", "label": "Project name", "value": "so"}
+{"seq": 10, "t_ms": 34, "type": "input.key", "widget": "projectName", "cls": "QLineEdit", "label": "Project name", "key": "c", "text": "c"}
+{"seq": 11, "t_ms": 34, "type": "state.input", "widget": "projectName", "cls": "QLineEdit", "label": "Project name", "value": "soc"}
+{"seq": 12, "t_ms": 34, "type": "input.key", "widget": "projectName", "cls": "QLineEdit", "label": "Project name", "key": "_", "text": "_"}
+{"seq": 13, "t_ms": 34, "type": "state.input", "widget": "projectName", "cls": "QLineEdit", "label": "Project name", "value": "soc_"}
+{"seq": 14, "t_ms": 35, "type": "input.key", "widget": "projectName", "cls": "QLineEdit", "label": "Project name", "key": "i", "text": "i"}
+{"seq": 15, "t_ms": 35, "type": "state.input", "widget": "projectName", "cls": "QLineEdit", "label": "Project name", "value": "soc_i"}
+{"seq": 16, "t_ms": 67, "type": "input.click", "widget": "topology", "cls": "QComboBox", "label": "Topology"}
+{"seq": 17, "t_ms": 129, "type": "input.click", "widget": "clockMhz", "cls": "QSpinBox", "label": "Clock (MHz)"}
+{"seq": 18, "t_ms": 160, "type": "input.key", "widget": "clockMhz", "cls": "QSpinBox", "label": "Clock (MHz)"}
+{"seq": 19, "t_ms": 160, "type": "input.key", "widget": "clockMhz", "cls": "QSpinBox", "label": "Clock (MHz)", "key": "a", "text": "a"}
+{"seq": 20, "t_ms": 161, "type": "input.key", "widget": "clockMhz", "cls": "QSpinBox", "label": "Clock (MHz)", "key": "Backspace", "text": "\b"}
+{"seq": 21, "t_ms": 161, "type": "input.key", "widget": "clockMhz", "cls": "QSpinBox", "label": "Clock (MHz)", "key": "2", "text": "2"}
+{"seq": 22, "t_ms": 161, "type": "input.key", "widget": "clockMhz", "cls": "QSpinBox", "label": "Clock (MHz)", "key": "0", "text": "0"}
+{"seq": 23, "t_ms": 161, "type": "input.key", "widget": "clockMhz", "cls": "QSpinBox", "label": "Clock (MHz)", "key": "0", "text": "0"}
+{"seq": 24, "t_ms": 161, "type": "state.input", "widget": "clockMhz", "cls": "QSpinBox", "label": "Clock (MHz)", "value": 200}
+{"seq": 25, "t_ms": 161, "type": "input.key", "widget": "clockMhz", "cls": "QSpinBox", "label": "Clock (MHz)", "key": "0", "text": "0"}
+{"seq": 26, "t_ms": 161, "type": "state.input", "widget": "clockMhz", "cls": "QSpinBox", "label": "Clock (MHz)", "value": 2000}
+{"seq": 27, "t_ms": 192, "type": "input.click", "widget": "initiatorName", "cls": "QLineEdit", "label": "Initiator name"}
+{"seq": 28, "t_ms": 223, "type": "input.key", "widget": "initiatorName", "cls": "QLineEdit", "label": "Initiator name"}
+{"seq": 29, "t_ms": 224, "type": "input.key", "widget": "initiatorName", "cls": "QLineEdit", "label": "Initiator name", "key": "a", "text": "a"}
+{"seq": 30, "t_ms": 224, "type": "input.key", "widget": "initiatorName", "cls": "QLineEdit", "label": "Initiator name", "key": "Backspace", "text": "\b"}
+{"seq": 31, "t_ms": 224, "type": "input.key", "widget": "initiatorName", "cls": "QLineEdit", "label": "Initiator name", "key": "c", "text": "c"}
+{"seq": 32, "t_ms": 224, "type": "state.input", "widget": "initiatorName", "cls": "QLineEdit", "label": "Initiator name", "value": "c"}
+{"seq": 33, "t_ms": 224, "type": "input.key", "widget": "initiatorName", "cls": "QLineEdit", "label": "Initiator name", "key": "p", "text": "p"}
+{"seq": 34, "t_ms": 224, "type": "state.input", "widget": "initiatorName", "cls": "QLineEdit", "label": "Initiator name", "value": "cp"}
+{"seq": 35, "t_ms": 224, "type": "input.key", "widget": "initiatorName", "cls": "QLineEdit", "label": "Initiator name", "key": "u", "text": "u"}
+{"seq": 36, "t_ms": 224, "type": "state.input", "widget": "initiatorName", "cls": "QLineEdit", "label": "Initiator name", "value": "cpu"}
+{"seq": 37, "t_ms": 224, "type": "input.key", "widget": "initiatorName", "cls": "QLineEdit", "label": "Initiator name", "key": "0", "text": "0"}
+{"seq": 38, "t_ms": 224, "type": "state.input", "widget": "initiatorName", "cls": "QLineEdit", "label": "Initiator name", "value": "cpu0"}
+{"seq": 39, "t_ms": 256, "type": "input.click", "widget": "addInitiator", "cls": "QPushButton", "label": "Add initiator"}
+{"seq": 40, "t_ms": 256, "type": "state.input", "widget": "initiatorName", "cls": "QLineEdit", "label": "Initiator name", "value": ""}
+{"seq": 41, "t_ms": 256, "type": "state.observed", "widget": "initiatorList", "cls": "QListWidget", "label": "Initiators", "value": ["cpu0 (AXI)"], "prop": "items"}
+{"seq": 42, "t_ms": 256, "type": "state.observed", "widget": "statusLabel", "cls": "QLabel", "label": "Status", "value": "Added cpu0", "prop": "text"}
+{"seq": 43, "t_ms": 287, "type": "input.click", "widget": "initiatorName", "cls": "QLineEdit", "label": "Initiator name"}
+{"seq": 44, "t_ms": 318, "type": "input.key", "widget": "initiatorName", "cls": "QLineEdit", "label": "Initiator name"}
+{"seq": 45, "t_ms": 318, "type": "input.key", "widget": "initiatorName", "cls": "QLineEdit", "label": "Initiator name", "key": "a", "text": "a"}
+{"seq": 46, "t_ms": 319, "type": "input.key", "widget": "initiatorName", "cls": "QLineEdit", "label": "Initiator name", "key": "Backspace", "text": "\b"}
+{"seq": 47, "t_ms": 319, "type": "input.key", "widget": "initiatorName", "cls": "QLineEdit", "label": "Initiator name", "key": "c", "text": "c"}
+{"seq": 48, "t_ms": 319, "type": "state.input", "widget": "initiatorName", "cls": "QLineEdit", "label": "Initiator name", "value": "c"}
+{"seq": 49, "t_ms": 319, "type": "input.key", "widget": "initiatorName", "cls": "QLineEdit", "label": "Initiator name", "key": "p", "text": "p"}
+{"seq": 50, "t_ms": 319, "type": "state.input", "widget": "initiatorName", "cls": "QLineEdit", "label": "Initiator name", "value": "cp"}
+{"seq": 51, "t_ms": 319, "type": "input.key", "widget": "initiatorName", "cls": "QLineEdit", "label": "Initiator name", "key": "u", "text": "u"}
+{"seq": 52, "t_ms": 319, "type": "state.input", "widget": "initiatorName", "cls": "QLineEdit", "label": "Initiator name", "value": "cpu"}
+{"seq": 53, "t_ms": 319, "type": "input.key", "widget": "initiatorName", "cls": "QLineEdit", "label": "Initiator name", "key": "1", "text": "1"}
+{"seq": 54, "t_ms": 319, "type": "state.input", "widget": "initiatorName", "cls": "QLineEdit", "label": "Initiator name", "value": "cpu1"}
+{"seq": 55, "t_ms": 351, "type": "input.click", "widget": "initiatorProtocol", "cls": "QComboBox", "label": "Initiator protocol"}
+{"seq": 56, "t_ms": 383, "type": "input.key", "widget": "initiatorProtocol", "cls": "QComboBox", "label": "Initiator protocol", "key": "Down"}
+{"seq": 57, "t_ms": 383, "type": "state.input", "widget": "initiatorProtocol", "cls": "QComboBox", "label": "Initiator protocol", "value": "AHB"}
+{"seq": 58, "t_ms": 383, "type": "input.key", "widget": "initiatorProtocol", "cls": "QComboBox", "label": "Initiator protocol", "key": "Down"}
+{"seq": 59, "t_ms": 383, "type": "state.input", "widget": "initiatorProtocol", "cls": "QComboBox", "label": "Initiator protocol", "value": "CHI"}
+{"seq": 60, "t_ms": 415, "type": "input.click", "widget": "addInitiator", "cls": "QPushButton", "label": "Add initiator"}
+{"seq": 61, "t_ms": 415, "type": "state.input", "widget": "initiatorName", "cls": "QLineEdit", "label": "Initiator name", "value": ""}
+{"seq": 62, "t_ms": 415, "type": "state.observed", "widget": "initiatorList", "cls": "QListWidget", "label": "Initiators", "value": ["cpu0 (AXI)", "cpu1 (CHI)"], "prop": "items"}
+{"seq": 63, "t_ms": 415, "type": "state.observed", "widget": "statusLabel", "cls": "QLabel", "label": "Status", "value": "Added cpu1", "prop": "text"}
+{"seq": 64, "t_ms": 446, "type": "input.click", "widget": "targetName", "cls": "QLineEdit", "label": "Target name"}
+{"seq": 65, "t_ms": 477, "type": "input.key", "widget": "targetName", "cls": "QLineEdit", "label": "Target name"}
+{"seq": 66, "t_ms": 477, "type": "input.key", "widget": "targetName", "cls": "QLineEdit", "label": "Target name", "key": "a", "text": "a"}
+{"seq": 67, "t_ms": 477, "type": "input.key", "widget": "targetName", "cls": "QLineEdit", "label": "Target name", "key": "Backspace", "text": "\b"}
+{"seq": 68, "t_ms": 477, "type": "input.key", "widget": "targetName", "cls": "QLineEdit", "label": "Target name", "key": "d", "text": "d"}
+{"seq": 69, "t_ms": 477, "type": "state.input", "widget": "targetName", "cls": "QLineEdit", "label": "Target name", "value": "d"}
+{"seq": 70, "t_ms": 478, "type": "input.key", "widget": "targetName", "cls": "QLineEdit", "label": "Target name", "key": "d", "text": "d"}
+{"seq": 71, "t_ms": 478, "type": "state.input", "widget": "targetName", "cls": "QLineEdit", "label": "Target name", "value": "dd"}
+{"seq": 72, "t_ms": 478, "type": "input.key", "widget": "targetName", "cls": "QLineEdit", "label": "Target name", "key": "r", "text": "r"}
+{"seq": 73, "t_ms": 478, "type": "state.input", "widget": "targetName", "cls": "QLineEdit", "label": "Target name", "value": "ddr"}
+{"seq": 74, "t_ms": 478, "type": "input.key", "widget": "targetName", "cls": "QLineEdit", "label": "Target name", "key": "0", "text": "0"}
+{"seq": 75, "t_ms": 478, "type": "state.input", "widget": "targetName", "cls": "QLineEdit", "label": "Target name", "value": "ddr0"}
+{"seq": 76, "t_ms": 509, "type": "input.click", "widget": "addTarget", "cls": "QPushButton", "label": "Add target"}
+{"seq": 77, "t_ms": 510, "type": "state.input", "widget": "targetName", "cls": "QLineEdit", "label": "Target name", "value": ""}
+{"seq": 78, "t_ms": 510, "type": "state.observed", "widget": "targetList", "cls": "QListWidget", "label": "Targets", "value": ["ddr0 (AXI)"], "prop": "items"}
+{"seq": 79, "t_ms": 510, "type": "state.observed", "widget": "statusLabel", "cls": "QLabel", "label": "Status", "value": "Added ddr0", "prop": "text"}
+{"seq": 80, "t_ms": 541, "type": "input.click", "widget": "validateBtn", "cls": "QPushButton", "label": "Validate"}
+{"seq": 81, "t_ms": 541, "type": "state.observed", "widget": "generateBtn", "cls": "QPushButton", "label": "Generate netlist", "value": true, "prop": "enabled"}
+{"seq": 82, "t_ms": 541, "type": "state.observed", "widget": "statusLabel", "cls": "QLabel", "label": "Status", "value": "Valid: 2 initiators, 1 targets", "prop": "text"}
+{"seq": 83, "t_ms": 573, "type": "input.click", "widget": "generateBtn", "cls": "QPushButton", "label": "Generate netlist"}
+{"seq": 84, "t_ms": 573, "type": "state.observed", "widget": "generateBtn", "cls": "QPushButton", "label": "Generate netlist", "value": false, "prop": "enabled"}
+{"seq": 85, "t_ms": 573, "type": "state.observed", "widget": "statusLabel", "cls": "QLabel", "label": "Status", "value": "Generating...", "prop": "text"}
+{"seq": 86, "t_ms": 957, "type": "state.observed", "widget": "generateBtn", "cls": "QPushButton", "label": "Generate netlist", "value": true, "prop": "enabled"}
+{"seq": 87, "t_ms": 958, "type": "state.observed", "widget": "statusLabel", "cls": "QLabel", "label": "Status", "value": "Generated soc_i.xml", "prop": "text"}
+{"seq": 88, "t_ms": 1205, "type": "checkpoint", "value": {"addInitiator": true, "initiatorList": ["cpu0 (AXI)", "cpu1 (CHI)"], "addTarget": true, "targetList": ["ddr0 (AXI)"], "validateBtn": true, "generateBtn": true, "statusLabel": "Generated soc_i.xml"}}

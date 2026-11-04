@@ -1,0 +1,67 @@
+{
+ "6eaf454d961db736": {
+  "steps": [
+   {
+    "id": "add_initiator",
+    "params": {
+     "name": "cpu0",
+     "protocol": "AXI"
+    },
+    "covers": [
+     1,
+     4
+    ],
+    "confidence": 0.95
+   }
+  ]
+ },
+ "0a27e341bef00569": {
+  "steps": [
+   {
+    "id": "add_initiator",
+    "params": {
+     "name": "cpu0",
+     "protocol": "AXI"
+    },
+    "covers": [
+     1,
+     2
+    ],
+    "confidence": 0.95
+   }
+  ]
+ },
+ "a7e6c11a6fbe6463": {
+  "steps": [
+   {
+    "id": "create_project",
+    "params": {
+     "name": "soc_j",
+     "topology": "Mesh",
+     "clock": 1500
+    },
+    "covers": [
+     5
+    ],
+    "confidence": 1
+   }
+  ]
+ },
+ "d3632ec742abeef1": {
+  "steps": [
+   {
+    "id": "add_target",
+    "params": {
+     "name": "flash0",
+     "protocol": "AHB"
+    },
+    "covers": [
+     3,
+     4,
+     5
+    ],
+    "confidence": 1
+   }
+  ]
+ }
+}
