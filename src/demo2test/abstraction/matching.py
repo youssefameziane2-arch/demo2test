@@ -58,6 +58,7 @@ class MatchResult:
     ignored: list[int]                         # actions inertes écartées
     llm_rejections: list[dict] = field(default_factory=list)
     llm_calls: int = 0
+    llm_check_rejections: list[dict] = field(default_factory=list)
 
 
 # ---------------------------------------------------------------- utilitaires
@@ -123,7 +124,8 @@ def rank_candidates(actions: list[Action], k: int = 4) -> list[tuple[Step, float
     scored = []
     for step in business_steps():
         sig_widgets = {s.widget for s in step.signature}
-        overlap = len(widgets & sig_widgets) / len(sig_widgets)
+        # Un step importé sans signature n'est retrouvé que par sa description.
+        overlap = len(widgets & sig_widgets) / len(sig_widgets) if sig_widgets else 0.0
         lexical = _cosine(query, _tokens(step.description + " " + " ".join(sig_widgets)))
         scored.append((step, round(0.7 * overlap + 0.3 * lexical, 3)))
     scored.sort(key=lambda x: -x[1])
@@ -170,8 +172,15 @@ class Pipeline:
         a = self.rec.actions[i]
         return i not in self.claimed and not a.inert and a.kind != "checkpoint"
 
-    def _claim(self, step: Step, covered: list[int], source: str, conf: float, note: str = "") -> bool:
-        params = _build_params(step, self.rec, self.timeline, covered)
+    def _claim(self, step: Step, covered: list[int], source: str, conf: float, note: str = "",
+               proposed: dict | None = None) -> bool:
+        if step.signature:
+            params = _build_params(step, self.rec, self.timeline, covered)
+        else:  # step sans signature : paramètres proposés, déjà vérifiés dans la trace
+            try:
+                params = {p: _coerce(step, p, (proposed or {})[p]) for p in step.params}
+            except (KeyError, ValueError):
+                params = None
         if params is None:
             return False
         self.claimed.update(covered)
@@ -194,7 +203,7 @@ class Pipeline:
 
     # -- 1. règles : signature exacte, dans l'ordre, sans action parasite
     def _rules(self) -> None:
-        steps = sorted(business_steps(), key=lambda s: -len(s.signature))
+        steps = sorted(business_steps(with_signature=True), key=lambda s: -len(s.signature))
         acts, i = self.rec.actions, 0
         while i < len(acts):
             if not self._active(i):
@@ -245,6 +254,8 @@ class Pipeline:
             progress = False
             live = [i for i in seg if self._active(i)]
             for step, _score in rank_candidates([acts[i] for i in live], k=len(business_steps())):
+                if not step.signature:
+                    continue  # sans signature, seule la recherche sémantique (LLM) peut conclure
                 sig_widgets = {s.widget for s in step.signature}
                 required = [s for s in step.signature if not s.optional]
                 for start in range(len(live)):
@@ -307,8 +318,11 @@ class Pipeline:
                 continue
             step = BY_ID[prop["id"]]
             conf = float(prop.get("confidence", 0.7))
+            note = "proposed by LLM, verified against trace"
+            if prop.get("trimmed"):
+                note += "; invalid or unrelated actions removed from the proposal"
             if not self._claim(step, sorted(prop["covers"]), "llm", min(max(conf, 0.0), 0.95),
-                               "proposed by LLM, verified against trace"):
+                               note, prop.get("params")):
                 self.rejections.append({"proposal": prop, "reason": "parameters not derivable"})
 
     def _verify(self, prop: dict, allowed: set[str], live: set[int]) -> str | None:
@@ -316,12 +330,31 @@ class Pipeline:
         sid, covers = prop.get("id"), prop.get("covers") or []
         if sid not in allowed:
             return f"step '{sid}' is not a candidate"
-        if not covers or not set(covers) <= live or set(covers) & self.claimed:
+        valid = [i for i in covers if isinstance(i, int) and i in live and i not in self.claimed]
+        if not valid:
             return "covered actions invalid or already used"
+        if len(valid) != len(covers):
+            # Indices hors du segment ou déjà rattachés : retirés de la proposition
+            # (la suite des vérifications porte sur ce qui reste).
+            covers = valid
+            prop["covers"] = covers
+            prop["trimmed"] = True
         step = BY_ID[sid]
+        if not step.signature:
+            if any(acts[i].inert for i in covers):
+                return "covers an inert action"
+            missing = [p for p in step.params if p not in (prop.get("params") or {})]
+            if missing:
+                return f"missing parameters: {', '.join(missing)}"
         sig_widgets = {s.widget for s in step.signature}
-        if any(acts[i].widget not in sig_widgets for i in covers):
-            return "covers an action unrelated to the step signature"
+        if step.signature and any(acts[i].widget not in sig_widgets for i in covers):
+            # Le LLM a inclus une action sans rapport avec ce step : on la lui retire
+            # (elle sera traitée à part) et on vérifie le reste, au lieu de tout rejeter.
+            covers = [i for i in covers if acts[i].widget in sig_widgets]
+            if not covers:
+                return "covers only actions unrelated to the step signature"
+            prop["covers"] = covers
+            prop["trimmed"] = True
         for item in step.signature:
             if item.optional or any(_matches(acts[i], item) for i in covers):
                 continue

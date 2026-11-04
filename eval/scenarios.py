@@ -154,3 +154,31 @@ SCENARIOS = [
     Scenario("s12_hesitation", "abandoned fields and reverted choice", s12,
              [proj("soc_l"), ini("cpu0"), tgt("ddr0"), V]),
 ]
+
+
+# --------------------------------------------------------------------------------
+# Jeu indépendant : démonstrations enregistrées À LA MAIN par une autre personne
+# (Youssef), à partir de consignes. Il les réalise à sa façon (ordre, fautes,
+# souris ou clavier) ; seule la consigne fixe le test attendu.
+# --------------------------------------------------------------------------------
+USER_TASKS = {
+    "u01_crossbar": (
+        "Crée le projet « youssef_soc » en topologie Crossbar à 1600 MHz. Ajoute les initiateurs "
+        "« cpu0 » (AXI) et « dma0 » (AHB), puis la cible « ddr0 » (CHI). Valide, génère la "
+        "netlist, attends le message « Generated », puis appuie sur Ctrl+Maj+K.",
+        [proj("youssef_soc", "Crossbar", 1600), ini("cpu0"), ini("dma0", "AHB"), tgt("ddr0", "CHI"),
+         V, G]),
+    "u02_ring_fix": (
+        "Crée le projet « ring_test » en topologie Ring. Ajoute l'initiateur « cpu0 » et la cible "
+        "« sram0 ». Valide : une erreur s'affiche, appuie sur Ctrl+Maj+K. Ajoute ensuite la cible "
+        "« uart0 » (AHB), valide de nouveau, puis appuie sur Ctrl+Maj+K.",
+        [proj("ring_test", "Ring"), ini("cpu0"), tgt("sram0"), V, tgt("uart0", "AHB"), V]),
+    "u03_qos_enter": (
+        "Crée le projet « qos_soc ». Coche « Enable QoS ». Ajoute l'initiateur « gpu0 » (CHI) en "
+        "validant le nom avec la touche Entrée au lieu du bouton. Ajoute la cible « ddr0 ». "
+        "Valide puis génère la netlist.",
+        [proj("qos_soc"), ("check_box", {"field": "Enable QoS"}), ini("gpu0", "CHI"), tgt("ddr0"), V, G]),
+}
+
+USER_SCENARIOS = [Scenario(name, "recorded by hand from written instructions", None, expected)
+                  for name, (_, expected) in USER_TASKS.items()]

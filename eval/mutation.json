@@ -1,0 +1,65 @@
+[
+ {
+  "mode": "none",
+  "checks": 0,
+  "llm_rejected": 0,
+  "false_alarms": [],
+  "killed": {
+   "ring_rule_ignored": [],
+   "duplicates_allowed": [],
+   "wrong_extension": [],
+   "generation_hangs": [],
+   "counts_swapped": [],
+   "generate_stays_disabled": [
+    "test_s01_happy_path",
+    "test_s09_two_initiators"
+   ],
+   "protocol_not_shown": [],
+   "added_status_missing": [],
+   "slow_generation": []
+  },
+  "score": 0.1111111111111111,
+  "seconds": 6.5
+ },
+ {
+  "mode": "key",
+  "checks": 42,
+  "llm_rejected": 0,
+  "false_alarms": [],
+  "killed": {
+   "ring_rule_ignored": [
+    "test_s06_ring_error"
+   ],
+   "duplicates_allowed": [
+    "test_s07_duplicate"
+   ],
+   "wrong_extension": [
+    "test_s01_happy_path",
+    "test_s09_two_initiators"
+   ],
+   "generation_hangs": [
+    "test_s01_happy_path",
+    "test_s09_two_initiators"
+   ],
+   "counts_swapped": [
+    "test_s09_two_initiators"
+   ],
+   "generate_stays_disabled": [
+    "test_s01_happy_path",
+    "test_s09_two_initiators"
+   ],
+   "protocol_not_shown": [
+    "test_s02_protocol_first",
+    "test_s08_qos",
+    "test_s09_two_initiators"
+   ],
+   "added_status_missing": [],
+   "slow_generation": [
+    "test_s01_happy_path",
+    "test_s09_two_initiators"
+   ]
+  },
+  "score": 0.8888888888888888,
+  "seconds": 35.7
+ }
+]

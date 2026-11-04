@@ -30,8 +30,12 @@ jobs:
         run: python eval/run_eval.py
       - name: Evaluation bench with the LLM (replayed from eval/llm_cache.json)
         run: python eval/run_eval.py --llm replay:eval/llm_cache.json
+      - name: Hand-recorded demonstrations (independent set, LLM replayed)
+        run: python eval/run_eval.py --set user --llm replay:eval/llm_cache.json
+      - name: Mutation bench (value of the generated checks, LLM replayed)
+        run: python eval/mutation_eval.py --llm replay:eval/llm_cache.json
       - name: Publish evaluation results
-        run: cat eval/RESULTS_llm.md >> "$GITHUB_STEP_SUMMARY"
+        run: cat eval/RESULTS_llm.md eval/RESULTS_user_llm.md eval/MUTATION_llm.md >> "$GITHUB_STEP_SUMMARY"
       - uses: actions/upload-artifact@v4
         if: matrix.python-version == '3.12'
         with:

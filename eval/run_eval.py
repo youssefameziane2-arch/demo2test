@@ -27,6 +27,7 @@ HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE))
 sys.path.insert(0, str(HERE.parent / "src"))
 
+import scenarios as scenario_sets  # noqa: E402
 from scenarios import SCENARIOS  # noqa: E402
 
 from demo2test.catalog import BY_ID  # noqa: E402
@@ -72,15 +73,17 @@ def junit_results(path: Path) -> dict[str, bool]:
     return results
 
 
-def evaluate(strategy: str, llm_spec: str | None, record_llm: str | None, out: Path) -> dict:
+def evaluate(strategy: str, llm_spec: str | None, record_llm: str | None, out: Path,
+             scenarios=None, traces: Path = TRACES) -> dict:
+    scenarios = scenarios or SCENARIOS
     pipeline = make_pipeline(strategy, llm_spec, record_llm)
     folder = out / strategy.replace("+", "_")
     folder.mkdir(parents=True, exist_ok=True)
     for old in folder.glob("*.feature"):
         old.unlink()
     rows, t0 = [], time.perf_counter()
-    for scn in SCENARIOS:
-        events = load_trace(TRACES / f"{scn.name}.jsonl")
+    for scn in scenarios:
+        events = load_trace(traces / f"{scn.name}.jsonl")
         gen = generate(events, scn.name, pipeline, "key", f"{scn.name}.jsonl")
         write_outputs(gen, folder, scn.name)
         row = score(scn.expected, gen.result.calls)
@@ -103,6 +106,7 @@ def evaluate(strategy: str, llm_spec: str | None, record_llm: str | None, out: P
         "precision": prec, "recall": rec,
         "f1": 2 * prec * rec / (prec + rec) if prec + rec else 0.0,
         "exact": sum(r["exact"] for r in rows) / len(rows),
+        "n": len(rows),
         "business": sum(r["business_hit"] for r in rows) / max(1, sum(r["business_exp"] for r in rows)),
         "compression": sum(r["raw"] for r in rows) / max(1, sum(r["steps"] for r in rows)),
         "executes": sum(r["executes"] for r in rows) / len(rows),
@@ -113,13 +117,14 @@ def evaluate(strategy: str, llm_spec: str | None, record_llm: str | None, out: P
     }
 
 
-def to_markdown(results: list[dict]) -> str:
+def to_markdown(results: list[dict], scenarios=None, intro: str | None = None) -> str:
+    scenarios = scenarios or SCENARIOS
     pct = lambda x: f"{100 * x:.0f} %"  # noqa: E731
     lines = [
         "# Résultats du banc d'évaluation",
         "",
-        f"{len(SCENARIOS)} démonstrations enregistrées sur l'application réelle "
-        "(`eval/traces/`), comparées au test qu'un ingénieur QA écrirait à la main.",
+        intro or (f"{len(scenarios)} démonstrations enregistrées sur l'application réelle "
+                  "(`eval/traces/`), comparées au test qu'un ingénieur QA écrirait à la main."),
         "",
         "| Stratégie | Précision | Rappel | F1 | Scénarios exacts | Steps métier retrouvés "
         "| Événements / step | Tests exécutables | Appels LLM (rejets) |",
@@ -133,7 +138,7 @@ def to_markdown(results: list[dict]) -> str:
     lines += ["", "## Détail par scénario", "",
               "| Scénario | Difficulté | " + " | ".join(f"`{r['strategy']}`" for r in results) + " |",
               "|---|---|" + "---|" * len(results)]
-    for i, scn in enumerate(SCENARIOS):
+    for i, scn in enumerate(scenarios):
         cells = []
         for r in results:
             row = r["rows"][i]
@@ -151,7 +156,11 @@ def main() -> int:
     ap.add_argument("--record-llm")
     ap.add_argument("--rerecord", action="store_true", help="re-record the demonstrations")
     ap.add_argument("--out", default=str(HERE / "out"))
+    ap.add_argument("--set", choices=["scripted", "user"], default="scripted",
+                    help="scripted: 12 demos replayed by QTest; user: demos recorded by hand")
     args = ap.parse_args()
+    if args.set == "user":
+        return evaluate_user_set(args)
     ensure_traces(args.rerecord)
     strategies = list(BASE_STRATEGIES)
     if args.llm:
@@ -161,6 +170,25 @@ def main() -> int:
     suffix = "_llm" if args.llm else ""
     (HERE / f"RESULTS{suffix}.md").write_text(md, encoding="utf-8")
     (HERE / f"results{suffix}.json").write_text(json.dumps(results, indent=1, default=str))
+    print(md)
+    return 0
+
+
+def evaluate_user_set(args) -> int:
+    traces = HERE / "user_traces"
+    available = [s for s in scenario_sets.USER_SCENARIOS if (traces / f"{s.name}.jsonl").exists()]
+    if not available:
+        print(f"no hand-recorded demo found in {traces}")
+        return 1
+    strategies = list(BASE_STRATEGIES) + (["rules+retrieval+llm"] if args.llm else [])
+    results = [evaluate(s, args.llm, args.record_llm, Path(args.out) / "user", available, traces)
+               for s in strategies]
+    intro = (f"{len(available)} démonstrations **enregistrées à la main** par une autre personne "
+             "à partir de consignes écrites (`eval/user_traces/`), jamais vues pendant la mise au "
+             "point de l'outil.")
+    md = to_markdown(results, available, intro)
+    suffix = "_llm" if args.llm else ""
+    (HERE / f"RESULTS_user{suffix}.md").write_text(md, encoding="utf-8")
     print(md)
     return 0
 

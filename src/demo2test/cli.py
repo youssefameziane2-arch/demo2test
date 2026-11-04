@@ -47,6 +47,11 @@ def cmd_record(args) -> int:
 
 
 def cmd_generate(args) -> int:
+    if args.steps:
+        from .catalog import use_library
+
+        steps = use_library(*args.steps)
+        print(f"{len(steps)} steps read from {', '.join(args.steps)}")
     strategy = args.strategy or ("rules+retrieval+llm" if args.llm else "rules+retrieval")
     pipeline = make_pipeline(strategy, args.llm, args.record_llm)
     events = load_trace(args.trace)
@@ -62,10 +67,12 @@ def prepare_runner(folder: Path) -> None:
     (folder / "conftest.py").write_text(RUNNER_CONFTEST)
 
 
-def run_features(folder: str | Path, junit: str | Path | None = None, quiet: bool = True) -> int:
+def run_features(folder: str | Path, junit: str | Path | None = None, quiet: bool = True,
+                 extra_env: dict[str, str] | None = None) -> int:
     folder = Path(folder).resolve()
     prepare_runner(folder)
-    env = {**os.environ, "QT_QPA_PLATFORM": os.environ.get("QT_QPA_PLATFORM", "offscreen")}
+    env = {**os.environ, "QT_QPA_PLATFORM": os.environ.get("QT_QPA_PLATFORM", "offscreen"),
+           **(extra_env or {})}
     cmd = [sys.executable, "-m", "pytest", str(folder), "-p", "no:cacheprovider",
            "-q" if quiet else "-v", "--rootdir", str(folder)]
     if junit:
@@ -94,7 +101,9 @@ def main(argv: list[str] | None = None) -> int:
     p.add_argument("--strategy", help="generic | rules | rules+retrieval | rules+retrieval+llm ...")
     p.add_argument("--llm", help="ollama:<model> | openai:<model> | replay:<file.json>")
     p.add_argument("--record-llm", help="save LLM answers to this file for later replay")
-    p.add_argument("--assertions", choices=["none", "key", "all"], default="key")
+    p.add_argument("--assertions", choices=["none", "key", "llm", "key+llm", "all"], default="key")
+    p.add_argument("--steps", nargs="+",
+                   help="step library to read the catalog from (.py files or folders; default: built-in)")
     p.set_defaults(func=cmd_generate)
 
     p = sub.add_parser("run", help="execute generated .feature files")

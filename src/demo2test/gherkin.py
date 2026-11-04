@@ -46,7 +46,8 @@ def render_feature(name: str, rec: Recording, result: MatchResult,
         out = []
         for a in by_call.get(idx, []):
             text = BY_ID[a.step_id].render(**a.params)
-            tag = a.origin + (f", observed after {a.observed_delay_ms} ms"
+            tag = {"llm": "suggested by LLM, verified"}.get(a.origin, a.origin) + (
+                f", observed after {a.observed_delay_ms} ms"
                               if a.observed_delay_ms else "")
             out.append(f"    # {tag}")
             out.append(f"    Then {text}")
@@ -87,14 +88,15 @@ def build_report(rec: Recording, result: MatchResult, assertions, pipeline: Pipe
         "assertions": [asdict(a) for a in assertions],
         "llm_calls": result.llm_calls,
         "llm_rejections": result.llm_rejections,
+        "llm_check_rejections": result.llm_check_rejections,
     }
 
 
 def generate(events: list[RawEvent], name: str, pipeline: Pipeline,
-             assertions_mode: str = "key", trace_name: str = "") -> Generated:
+             assertions_mode: str = "key", trace_name: str = "", llm=None) -> Generated:
     rec = group_events(events)
     result = pipeline.run(rec)
-    checks = suggest(rec, result, assertions_mode)
+    checks = suggest(rec, result, assertions_mode, llm or pipeline.llm)
     feature = render_feature(name, rec, result, checks, trace_name)
     return Generated(feature, build_report(rec, result, checks, pipeline), rec, result, checks)
 

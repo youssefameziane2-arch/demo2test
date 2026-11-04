@@ -112,12 +112,114 @@ def test_llm_failure_degrades_gracefully(recording):
 
 
 # ------------------------------------------------------------------ catalog
-def test_every_catalog_step_is_implemented():
-    from demo2test.bdd import steps as library
+def test_catalog_is_read_from_the_step_library_itself():
+    """Le catalogue vient du code de la bibliothèque : impossible qu'ils divergent."""
+    from demo2test.catalog import DEFAULT_LIBRARY
+    from demo2test.catalog_import import load_step_library
 
-    assert {s.id for s in STEPS} == library.IMPLEMENTED
+    ids = {s.id for s in load_step_library(DEFAULT_LIBRARY)}
+    assert ids == {s.id for s in STEPS}
+    assert BY_ID["add_initiator"].signature[1].optional  # « initiatorProtocol:select:protocol? »
+    assert BY_ID["status_is"].level == "assertion"
+
+
+def test_foreign_library_without_metadata_is_usable_by_the_llm(recording):
+    """Bibliothèque d'une autre équipe : pas de signature, mais des descriptions."""
+    from pathlib import Path
+
+    from demo2test.catalog import DEFAULT_LIBRARY, use_library
+
+    foreign = Path(__file__).resolve().parents[1] / "examples" / "other_team_library"
+    try:
+        # leur bibliothèque + nos steps génériques (filet de sécurité)
+        steps = use_library(foreign, DEFAULT_LIBRARY)
+        theirs = [s for s in steps if "source=noc_steps.py" in s.tags]
+        assert {s.id for s in theirs} == {"studio_open", "declare_cpu_port", "run_drc"}
+        assert all(not s.signature for s in theirs)
+
+        def responder(system, user):
+            payload = json.loads(user)
+            assert "declare_cpu_port" in {c["id"] for c in payload["candidates"]}
+            idx = [a["index"] for a in payload["actions"] if a["widget"] == "initiatorName"]
+            return {"steps": [{"id": "declare_cpu_port", "params": {"name": "cpu0", "protocol": "AXI"},
+                               "covers": idx, "confidence": 0.8}]}
+
+        result = Pipeline(llm=ScriptedClient(responder)).run(recording("s05_enter_key"))
+        call = next(c for c in result.calls if c.step_id == "declare_cpu_port")
+        assert call.text == 'I declare the CPU port "cpu0" speaking AXI'
+    finally:
+        use_library(DEFAULT_LIBRARY)
 
 
 def test_render_matches_pattern():
     text = BY_ID["create_project"].render(name="soc", topology="Ring", clock=800)
     assert text == 'I create the project "soc" with a Ring topology at 800 MHz'
+
+
+# --------------------------------------------------------- assertions LLM
+def test_llm_checks_are_verified_against_what_was_observed(recording):
+    from demo2test.abstraction.assertions import suggest
+
+    rec = recording("s01_happy_path")
+    result = Pipeline().run(rec)
+
+    def responder(system, user):
+        payload = json.loads(user)
+        assert {s["id"] for s in payload["assertion_steps"]} >= {"status_is", "list_count"}
+        add = next(s["index"] for s in payload["test"] if "initiator" in s["step"])
+        return {"checks": [
+            {"after": add, "id": "status_is", "params": {"text": "Added cpu0"}},        # vrai
+            {"after": add, "id": "status_is", "params": {"text": "Added cpu9"}},        # inventé
+            {"after": add, "id": "list_count", "params": {"list": "Initiators", "count": 1}},
+            {"after": add, "id": "click_button", "params": {"button": "Validate"}},   # pas une assertion
+            {"after": 99, "id": "status_is", "params": {"text": "x"}},                  # index invalide
+        ]}
+
+    checks = suggest(rec, result, "llm", ScriptedClient(responder))
+    llm = [(c.step_id, c.params) for c in checks if c.origin == "llm"]
+    assert ("status_is", {"text": "Added cpu0"}) in llm
+    assert ("list_count", {"list": "Initiators", "count": 1}) in llm
+    reasons = " | ".join(r["reason"] for r in result.llm_check_rejections)
+    assert "does not match what was observed" in reasons
+    assert "not an assertion step" in reasons and "invalid step index" in reasons
+
+
+def test_llm_check_mode_degrades_to_checkpoints_on_error(recording):
+    from demo2test.abstraction.assertions import suggest
+
+    rec = recording("s06_ring_error")
+    result = Pipeline().run(rec)
+
+    def boom(system, user):
+        raise TimeoutError("ollama not running")
+
+    checks = suggest(rec, result, "llm", ScriptedClient(boom))
+    assert checks and all(c.origin == "checkpoint" for c in checks)
+    assert "llm error" in result.llm_check_rejections[0]["reason"]
+
+
+def test_llm_proposal_is_trimmed_not_rejected_when_it_overreaches(recording):
+    """Cas réel (démo enregistrée à la main) : la bonne réponse incluait une action de trop."""
+    def responder(system, user):
+        payload = json.loads(user)
+        idx = [a["index"] for a in payload["actions"]]
+        return {"steps": [{"id": "add_initiator", "params": {"name": "cpu0", "protocol": "AXI"},
+                           "covers": [0] + idx + [999], "confidence": 0.9}]}
+
+    result = Pipeline(llm=ScriptedClient(responder)).run(recording("s05_enter_key"))
+    call = next(c for c in result.calls if c.step_id == "add_initiator")
+    assert call.source == "llm" and "removed" in call.note
+    assert 0 not in call.covered  # l'action déjà rattachée (le projet) n'a pas été volée
+
+
+def test_abandoned_edit_is_ignored():
+    """Cas réel : valeur tapée dans le mauvais champ puis effacée."""
+    from pathlib import Path
+
+    from demo2test.abstraction.actions import group_events
+    from demo2test.recorder.trace import load_trace
+
+    rec = group_events(load_trace(Path(__file__).resolve().parents[1] / "eval" / "user_traces"
+                                  / "u02_ring_fix.jsonl"))
+    edits = [a for a in rec.actions if a.widget == "initiatorName" and a.kind == "set"]
+    assert [a.value for a in edits] == ["cpu0"]

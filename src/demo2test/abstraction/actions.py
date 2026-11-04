@@ -167,10 +167,37 @@ class _Grouper:
         self._push(cp)
 
 
+def _drop_abandoned_edits(rec: Recording) -> None:
+    """Saisie abandonnée : un champ modifié puis remis à sa valeur de départ sans avoir servi.
+
+    Exemple réel : le testeur tape « uart0 » dans le mauvais champ, s'en aperçoit et
+    l'efface. Ces saisies n'ont aucun effet sur l'application ; les garder produirait
+    des steps inutiles (et un step « saisir une valeur vide »).
+    """
+    values = dict(rec.initial_state)
+    open_edits: dict[str, tuple[object, list[Action]]] = {}
+    for a in rec.actions:
+        if a.kind in ("set", "select") and a.widget:
+            before, edits = open_edits.get(a.widget, (values.get(a.widget), []))
+            edits.append(a)
+            open_edits[a.widget] = (before, edits)
+            values[a.widget] = a.value
+            if a.value == before:
+                for e in edits:
+                    e.kind, e.value = "focus", None
+                del open_edits[a.widget]
+        elif a.kind in ("click", "submit", "toggle"):
+            open_edits.clear()  # les saisies en cours ont pu être utilisées par cette action
+        for e in a.effects:      # l'application peut elle-même vider un champ (après un ajout)
+            if e.prop == "value":
+                values[e.widget] = e.value
+
+
 def group_events(events: list[RawEvent]) -> Recording:
     rec = _Grouper(events).run()
     # Une case cliquée dont l'état n'a pas changé est inerte.
     for a in rec.actions:
         if a.kind == "toggle" and a.value is None:
             a.kind = "focus"
+    _drop_abandoned_edits(rec)
     return rec

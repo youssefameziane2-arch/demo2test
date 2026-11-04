@@ -20,14 +20,13 @@
    {
     "id": "add_initiator",
     "params": {
-     "name": "cpu0",
-     "protocol": "AXI"
+     "name": "cpu0"
     },
     "covers": [
      1,
      2
     ],
-    "confidence": 0.95
+    "confidence": 1.0
    }
   ]
  },
@@ -50,17 +49,367 @@
  "d3632ec742abeef1": {
   "steps": [
    {
+    "id": "create_project",
+    "params": {
+     "name": "soc_k",
+     "topology": "Mesh",
+     "clock": 1000
+    },
+    "covers": [
+     2
+    ],
+    "confidence": 0.95
+   },
+   {
     "id": "add_target",
     "params": {
      "name": "flash0",
      "protocol": "AHB"
     },
     "covers": [
+     0,
+     1,
      3,
      4,
      5
     ],
-    "confidence": 1
+    "confidence": 0.95
+   }
+  ]
+ },
+ "e8a49ed299ca90c1": {
+  "checks": [
+   {
+    "after": 3,
+    "id": "status_is",
+    "params": {
+     "text": "Valid: 1 initiators, 1 targets"
+    }
+   },
+   {
+    "after": 3,
+    "id": "status_is",
+    "params": {
+     "text": "Generated soc_a.xml"
+    }
+   }
+  ]
+ },
+ "ea0cc48b2c7d3bbd": {
+  "checks": [
+   {
+    "after": 3,
+    "id": "status_is",
+    "params": {
+     "text": "Valid: 1 initiators, 1 targets"
+    }
+   },
+   {
+    "after": 3,
+    "id": "list_count",
+    "params": {
+     "list": "Status",
+     "count": 1
+    }
+   },
+   {
+    "after": 3,
+    "id": "list_count",
+    "params": {
+     "list": "Targets",
+     "count": 1
+    }
+   },
+   {
+    "after": 3,
+    "id": "button_enabled",
+    "params": {
+     "button": "Generate netlist"
+    }
+   }
+  ]
+ },
+ "bb38ad7c30a622d4": {
+  "checks": [
+   {
+    "after": 3,
+    "id": "status_is",
+    "params": {
+     "text": "Valid: 1 initiators, 1 targets"
+    }
+   }
+  ]
+ },
+ "741665007fb4fba8": {
+  "checks": [
+   {
+    "after": 3,
+    "id": "status_is",
+    "params": {
+     "text": "Valid: 1 initiators, 1 targets"
+    }
+   }
+  ]
+ },
+ "b62b85bf1a7814d5": {
+  "checks": [
+   {
+    "after": 3,
+    "id": "status_is",
+    "params": {
+     "text": "Valid: 1 initiators, 1 targets"
+    }
+   }
+  ]
+ },
+ "a6c0398a92efb910": {
+  "checks": [
+   {
+    "after": 3,
+    "id": "status_is",
+    "params": {
+     "text": "Error: a ring needs at least 3 endpoints"
+    }
+   }
+  ]
+ },
+ "2df63b99a343f663": {
+  "checks": [
+   {
+    "after": 2,
+    "id": "button_disabled",
+    "params": {
+     "button: ": "Error: 'cpu0' already exists' button"
+    }
+   }
+  ]
+ },
+ "432dc338e9335c5b": {
+  "checks": [
+   {
+    "after": 4,
+    "id": "status_is",
+    "params": {
+     "text": "Valid: 1 initiators, 1 targets"
+    }
+   },
+   {
+    "after": 4,
+    "id": "status_is",
+    "params": {
+     "text": "Generate netlist: true"
+    }
+   },
+   {
+    "after": 4,
+    "id": "list_count",
+    "params": {
+     "list": "Status",
+     "count": 1
+    }
+   },
+   {
+    "after": 4,
+    "id": "list_count",
+    "params": {
+     "list": "Targets",
+     "count": 1
+    }
+   }
+  ]
+ },
+ "045f7a8e22302dac": {
+  "checks": [
+   {
+    "after": 4,
+    "id": "status_is",
+    "params": {
+     "text": "Valid: 2 initiators, 1 targets"
+    }
+   },
+   {
+    "after": 4,
+    "id": "status_is",
+    "params": {
+     "text": "Generate netlist: true"
+    }
+   },
+   {
+    "after": 5,
+    "id": "status_is",
+    "params": {
+     "text": "Generated soc_i.xml"
+    }
+   }
+  ]
+ },
+ "1cb0611119e3d84e": {
+  "checks": [
+   {
+    "after": 4,
+    "id": "status_is",
+    "params": {
+     "text": "Valid: 1 initiators, 1 targets"
+    }
+   }
+  ]
+ },
+ "821644d5823b352d": {
+  "checks": [
+   {
+    "after": 4,
+    "id": "status_is",
+    "params": {
+     "text": "Added flash0"
+    }
+   },
+   {
+    "after": 4,
+    "id": "status_is",
+    "params": {
+     "text": "Valid: 1 initiators, 1 targets"
+    }
+   },
+   {
+    "after": 5,
+    "id": "button_enabled",
+    "params": {
+     "button": "Generate netlist"
+    }
+   }
+  ]
+ },
+ "2aeb8598979ce63f": {
+  "checks": [
+   {
+    "after": 3,
+    "id": "status_is",
+    "params": {
+     "text": "Valid: 1 initiators, 1 targets"
+    }
+   },
+   {
+    "after": 3,
+    "id": "status_is",
+    "params": {
+     "text": "Generate netlist: true"
+    }
+   },
+   {
+    "after": 3,
+    "id": "list_count",
+    "params": {
+     "list": "Status",
+     "count": 1
+    }
+   },
+   {
+    "after": 3,
+    "id": "list_contains",
+    "params": {
+     "list": "Status",
+     "item": "Valid: 1 initiators, 1 targets"
+    }
+   },
+   {
+    "after": 3,
+    "id": "list_contains",
+    "params": {
+     "list": "Status",
+     "item": "Generate netlist: true"
+    }
+   }
+  ]
+ },
+ "c5755a2e357f0d06": {
+  "steps": [
+   {
+    "id": "create_project",
+    "params": {
+     "name": "ring_test",
+     "topology": "Ring",
+     "clock": 1000
+    },
+    "covers": [
+     9
+    ],
+    "confidence": 0.95
+   },
+   {
+    "id": "add_initiator",
+    "params": {
+     "name": "",
+     "protocol": "AXI"
+    },
+    "covers": [
+     7,
+     9
+    ],
+    "confidence": 0.9
+   }
+  ]
+ },
+ "3d67643b41b6a4b6": {
+  "steps": [
+   {
+    "id": "add_initiator",
+    "params": {
+     "name": "gpu0",
+     "protocol": "CHI"
+    },
+    "covers": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "confidence": 0.95
+   },
+   {
+    "id": "add_target",
+    "params": {
+     "name": "ddr0",
+     "protocol": "AXI"
+    },
+    "covers": [
+     5,
+     6
+    ],
+    "confidence": 0.95
+   }
+  ]
+ },
+ "a6b3eb68b6371ee3": {
+  "checks": [
+   {
+    "after": 3,
+    "id": "status_is",
+    "params": {
+     "text": "Valid: 1 initiators, 1 targets"
+    }
+   },
+   {
+    "after": 3,
+    "id": "button_enabled",
+    "params": {
+     "button": "Validate"
+    }
+   },
+   {
+    "after": 3,
+    "id": "list_count",
+    "params": {
+     "list": "Status",
+     "count": 1
+    }
+   },
+   {
+    "after": 3,
+    "id": "list_count",
+    "params": {
+     "list": "Targets",
+     "count": 1
+    }
    }
   ]
  }

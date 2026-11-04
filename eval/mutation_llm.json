@@ -1,0 +1,174 @@
+[
+ {
+  "mode": "none",
+  "checks": 0,
+  "llm_rejected": 0,
+  "false_alarms": [],
+  "killed": {
+   "ring_rule_ignored": [],
+   "duplicates_allowed": [],
+   "wrong_extension": [],
+   "generation_hangs": [],
+   "counts_swapped": [],
+   "generate_stays_disabled": [
+    "test_s01_happy_path",
+    "test_s09_two_initiators"
+   ],
+   "protocol_not_shown": [],
+   "added_status_missing": [],
+   "slow_generation": []
+  },
+  "score": 0.1111111111111111,
+  "seconds": 6.3
+ },
+ {
+  "mode": "key",
+  "checks": 44,
+  "llm_rejected": 0,
+  "false_alarms": [],
+  "killed": {
+   "ring_rule_ignored": [
+    "test_s06_ring_error"
+   ],
+   "duplicates_allowed": [
+    "test_s07_duplicate"
+   ],
+   "wrong_extension": [
+    "test_s01_happy_path",
+    "test_s09_two_initiators"
+   ],
+   "generation_hangs": [
+    "test_s01_happy_path",
+    "test_s09_two_initiators"
+   ],
+   "counts_swapped": [
+    "test_s09_two_initiators"
+   ],
+   "generate_stays_disabled": [
+    "test_s01_happy_path",
+    "test_s09_two_initiators"
+   ],
+   "protocol_not_shown": [
+    "test_s02_protocol_first",
+    "test_s08_qos",
+    "test_s09_two_initiators",
+    "test_s11_enter_permuted"
+   ],
+   "added_status_missing": [],
+   "slow_generation": [
+    "test_s01_happy_path",
+    "test_s09_two_initiators"
+   ]
+  },
+  "score": 0.8888888888888888,
+  "seconds": 38.3
+ },
+ {
+  "mode": "llm-unverified",
+  "checks": 34,
+  "llm_rejected": 1,
+  "false_alarms": [
+   "test_s01_happy_path",
+   "test_s02_protocol_first",
+   "test_s08_qos",
+   "test_s09_two_initiators",
+   "test_s11_enter_permuted",
+   "test_s12_hesitation"
+  ],
+  "killed": {
+   "ring_rule_ignored": [
+    "test_s06_ring_error"
+   ],
+   "duplicates_allowed": [
+    "test_s07_duplicate"
+   ],
+   "wrong_extension": [],
+   "generation_hangs": [],
+   "counts_swapped": [],
+   "generate_stays_disabled": [],
+   "protocol_not_shown": [],
+   "added_status_missing": [],
+   "slow_generation": []
+  },
+  "score": 0.2222222222222222,
+  "seconds": 93.4
+ },
+ {
+  "mode": "llm",
+  "checks": 23,
+  "llm_rejected": 12,
+  "false_alarms": [],
+  "killed": {
+   "ring_rule_ignored": [
+    "test_s06_ring_error"
+   ],
+   "duplicates_allowed": [
+    "test_s07_duplicate"
+   ],
+   "wrong_extension": [
+    "test_s09_two_initiators"
+   ],
+   "generation_hangs": [
+    "test_s09_two_initiators"
+   ],
+   "counts_swapped": [
+    "test_s09_two_initiators"
+   ],
+   "generate_stays_disabled": [
+    "test_s01_happy_path",
+    "test_s02_protocol_first",
+    "test_s09_two_initiators"
+   ],
+   "protocol_not_shown": [],
+   "added_status_missing": [],
+   "slow_generation": [
+    "test_s09_two_initiators"
+   ]
+  },
+  "score": 0.7777777777777778,
+  "seconds": 23.6
+ },
+ {
+  "mode": "key+llm",
+  "checks": 48,
+  "llm_rejected": 12,
+  "false_alarms": [],
+  "killed": {
+   "ring_rule_ignored": [
+    "test_s06_ring_error"
+   ],
+   "duplicates_allowed": [
+    "test_s07_duplicate"
+   ],
+   "wrong_extension": [
+    "test_s01_happy_path",
+    "test_s09_two_initiators"
+   ],
+   "generation_hangs": [
+    "test_s01_happy_path",
+    "test_s09_two_initiators"
+   ],
+   "counts_swapped": [
+    "test_s09_two_initiators"
+   ],
+   "generate_stays_disabled": [
+    "test_s01_happy_path",
+    "test_s02_protocol_first",
+    "test_s09_two_initiators"
+   ],
+   "protocol_not_shown": [
+    "test_s02_protocol_first",
+    "test_s08_qos",
+    "test_s09_two_initiators",
+    "test_s11_enter_permuted"
+   ],
+   "added_status_missing": [],
+   "slow_generation": [
+    "test_s01_happy_path",
+    "test_s09_two_initiators"
+   ]
+  },
+  "score": 0.8888888888888888,
+  "seconds": 40.1
+ }
+]

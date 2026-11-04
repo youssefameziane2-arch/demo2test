@@ -1,8 +1,9 @@
-"""Catalogue de steps — source unique de vérité.
+"""Catalogue de steps — lu dans la bibliothèque pytest-bdd elle-même.
 
-Le même catalogue sert :
-* au moteur d'abstraction (rattacher des actions enregistrées à des steps),
-* à la bibliothèque pytest-bdd (``bdd/steps.py``) qui exécute ces steps.
+Il n'y a pas de liste à maintenir à part : le catalogue est extrait du code de la
+bibliothèque de steps (``bdd/steps.py`` par défaut, ou celle d'une autre équipe via
+``use_library``). Il sert au moteur d'abstraction ; la bibliothèque, elle, exécute
+les steps. Les deux ne peuvent donc pas diverger.
 
 Deux niveaux :
 * **generic** : un step par action d'interface (toujours applicable, filet de sécurité) ;
@@ -14,6 +15,7 @@ from __future__ import annotations
 
 import re
 from dataclasses import dataclass, field
+from pathlib import Path
 
 
 @dataclass(frozen=True)
@@ -47,75 +49,34 @@ class Step:
         return out
 
 
-STEPS: list[Step] = [
-    # ------------------------------------------------------------ contexte
-    Step("given_open", "Given", "the NoC Config Studio is open",
-         "Start the application with a blank design", level="context"),
+DEFAULT_LIBRARY = Path(__file__).resolve().parent / "bdd" / "steps.py"
 
-    # ------------------------------------------------------------ génériques
-    Step("set_field", "When", 'I set "{field}" to "{value}"',
-         "Type a value into a text or number field", kinds=("set",)),
-    Step("select_option", "When", 'I select "{value}" in "{field}"',
-         "Choose an option in a drop-down list", kinds=("select",)),
-    Step("check_box", "When", 'I check "{field}"',
-         "Tick a check box", kinds=("toggle:on",)),
-    Step("uncheck_box", "When", 'I uncheck "{field}"',
-         "Untick a check box", kinds=("toggle:off",)),
-    Step("click_button", "When", 'I click "{button}"',
-         "Press a push button", kinds=("click",)),
-    Step("press_enter", "When", 'I press Enter in "{field}"',
-         "Validate a text field with the Enter key", kinds=("submit",)),
-
-    # ------------------------------------------------------------ métier
-    Step("create_project", "When",
-         'I create the project "{name}" with a {topology} topology at {clock:d} MHz',
-         "Set up a new NoC project: name, interconnect topology (mesh, ring, crossbar) "
-         "and clock frequency",
-         level="business",
-         signature=(SigItem("projectName", "set", "name"),
-                    SigItem("topology", "select", "topology", optional=True),
-                    SigItem("clockMhz", "set", "clock", optional=True))),
-    Step("add_initiator", "When", 'I add the initiator "{name}" using {protocol}',
-         "Add an initiator (master) port such as a CPU or DMA with its bus protocol "
-         "(AXI, AHB, CHI) to the network on chip",
-         level="business",
-         signature=(SigItem("initiatorName", "set", "name"),
-                    SigItem("initiatorProtocol", "select", "protocol", optional=True),
-                    SigItem("addInitiator", "click"))),
-    Step("add_target", "When", 'I add the target "{name}" using {protocol}',
-         "Add a target (slave) port such as a memory controller or peripheral with its "
-         "bus protocol to the network on chip",
-         level="business",
-         signature=(SigItem("targetName", "set", "name"),
-                    SigItem("targetProtocol", "select", "protocol", optional=True),
-                    SigItem("addTarget", "click"))),
-    Step("validate_design", "When", "I validate the design",
-         "Run the design rule checks of the NoC", level="business",
-         signature=(SigItem("validateBtn", "click"),)),
-    Step("generate_netlist", "When", "I generate the netlist",
-         "Generate the netlist file of a validated design (asynchronous)",
-         level="business", signature=(SigItem("generateBtn", "click"),)),
-
-    # ------------------------------------------------------------ assertions
-    Step("status_is", "Then", 'the status shows "{text}"',
-         "Check the status bar message (waits for asynchronous updates)", level="assertion",
-         tags=("statusLabel",)),
-    Step("list_contains", "Then", 'the "{list}" list contains "{item}"',
-         "Check that a list contains an entry", level="assertion"),
-    Step("list_count", "Then", 'the "{list}" list has {count:d} items',
-         "Check the number of entries of a list", level="assertion"),
-    Step("button_enabled", "Then", '"{button}" is enabled',
-         "Check that a button can be used", level="assertion"),
-    Step("button_disabled", "Then", '"{button}" is disabled',
-         "Check that a button cannot be used", level="assertion"),
-]
-
-BY_ID = {s.id: s for s in STEPS}
+STEPS: list[Step] = []
+BY_ID: dict[str, Step] = {}
 
 
-def business_steps() -> list[Step]:
-    return [s for s in STEPS if s.level == "business"]
+def use_library(*paths: str | Path) -> list[Step]:
+    """Charge le catalogue depuis une (ou plusieurs) bibliothèque(s) pytest-bdd."""
+    from .catalog_import import load_step_library
+
+    steps = load_step_library(*paths)
+    STEPS[:] = steps          # mise à jour en place : les modules qui ont importé
+    BY_ID.clear()             # STEPS / BY_ID voient le nouveau catalogue
+    BY_ID.update({s.id: s for s in steps})
+    return steps
+
+
+
+def business_steps(with_signature: bool = False) -> list[Step]:
+    return [s for s in STEPS if s.level == "business" and (s.signature or not with_signature)]
 
 
 def generic_for(kind: str) -> Step:
-    return next(s for s in STEPS if s.level == "generic" and kind in s.kinds)
+    for s in STEPS:
+        if s.level == "generic" and kind in s.kinds:
+            return s
+    raise LookupError(f"the step library has no generic step for UI action '{kind}' "
+                      "(add one with 'd2t: kinds=...')")
+
+
+use_library(DEFAULT_LIBRARY)

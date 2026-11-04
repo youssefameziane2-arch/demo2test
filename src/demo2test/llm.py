@@ -4,8 +4,9 @@
 * ``openai:<modèle>``  — toute API compatible OpenAI (``OPENAI_BASE_URL``, ``OPENAI_API_KEY``) ;
 * ``replay:<fichier>`` — rejoue des réponses enregistrées : tests reproductibles et CI sans GPU.
 
-Tout appel réel peut être journalisé (``record_to``) pour être rejoué ensuite :
-c'est ce qui rend les évaluations comparables d'une exécution à l'autre.
+Tout appel réel peut être journalisé (``record_to``) pour être rejoué ensuite ; une
+question déjà posée est servie depuis ce journal au lieu de rappeler le modèle.
+C'est ce qui rend les évaluations comparables d'une exécution à l'autre.
 """
 from __future__ import annotations
 
@@ -53,6 +54,12 @@ class _HTTPClient:
         with urllib.request.urlopen(req, timeout=self.timeout) as resp:  # noqa: S310
             return json.loads(resp.read())
 
+    def _cached(self, system: str, user: str) -> dict | None:
+        """Réponse déjà enregistrée pour cette question exacte (évite un appel coûteux)."""
+        if not self.record_to or not self.record_to.exists():
+            return None
+        return json.loads(self.record_to.read_text()).get(_key(system, user))
+
     def _record(self, system: str, user: str, answer: dict) -> None:
         if not self.record_to:
             return
@@ -69,6 +76,9 @@ class OllamaClient(_HTTPClient):
         self.name = f"ollama:{model}"
 
     def complete_json(self, system: str, user: str) -> dict:
+        hit = self._cached(system, user)
+        if hit is not None:
+            return hit
         self.calls += 1
         data = self._post(f"{self.host}/api/chat", {
             "model": self.model, "stream": False, "format": "json",
@@ -87,6 +97,9 @@ class OpenAICompatClient(_HTTPClient):
         self.name = f"openai:{model}"
 
     def complete_json(self, system: str, user: str) -> dict:
+        hit = self._cached(system, user)
+        if hit is not None:
+            return hit
         self.calls += 1
         data = self._post(f"{self.base}/chat/completions", {
             "model": self.model, "temperature": 0,
